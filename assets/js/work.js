@@ -14,9 +14,9 @@ class FashionRackPOS {
             { id: 10, name: "Silk Tie", category: "accessories", price: 14.99, stock: 15, image: "https://images.pexels.com/photos/130855/pexels-photo-130855.jpeg?auto=compress&cs=tinysrgb&w=300" },
             { id: 11, name: "Designer Watch", category: "accessories", price: 89.99, stock: 3, image: "https://images.pexels.com/photos/380782/pexels-photo-380782.jpeg?auto=compress&cs=tinysrgb&w=300" },
             { id: 12, name: "Sunglasses", category: "accessories", price: 24.99, stock: 12, image: "https://images.pexels.com/photos/704241/pexels-photo-704241.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 12, name: "NIKE AIR Shoes", category: "accessories", price: 154.99, stock: 12, image: "https://images.pexels.com/photos/2385477/pexels-photo-2385477.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 12, name: "NIKE AIR Shoes black", category: "accessories", price: 184.99, stock: 8, image: "https://images.pexels.com/photos/3261068/pexels-photo-3261068.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 12, name: "NIKE AIR Shoes white", category: "accessories", price: 166.99, stock: 10, image: "https://images.pexels.com/photos/15435913/pexels-photo-15435913.jpeg?auto=compress&cs=tinysrgb&w=300" }
+            { id: 13, name: "NIKE AIR Shoes", category: "accessories", price: 154.99, stock: 12, image: "https://images.pexels.com/photos/2385477/pexels-photo-2385477.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 14, name: "NIKE AIR Shoes black", category: "accessories", price: 184.99, stock: 8, image: "https://images.pexels.com/photos/3261068/pexels-photo-3261068.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 15, name: "NIKE AIR Shoes white", category: "accessories", price: 166.99, stock: 10, image: "https://images.pexels.com/photos/15435913/pexels-photo-15435913.jpeg?auto=compress&cs=tinysrgb&w=300" }
         ];
         this.customers = [
             { id: 1, name: "Dulani Piusha", email: "dulani@gmail.com", phone: "+1234567890", address: "123 station rd, Galle", totalOrders: 5 },
