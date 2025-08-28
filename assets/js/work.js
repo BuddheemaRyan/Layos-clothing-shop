@@ -101,3 +101,39 @@ class FashionRackPOS {
             if (btn === b) btn.classList.add('active', 'bg-purple-600', 'text-white');
         });
     }
+    searchProducts(q) {
+        document.querySelectorAll('.product-card').forEach(c => c.style.display = c.querySelector('h3').textContent.toLowerCase().includes(q.toLowerCase()) ? 'block' : 'none');
+    }
+
+    showProductModal(p = null) {
+        this.editingProduct = p;
+        const m = document.getElementById('product-modal'), f = document.getElementById('product-form');
+        document.getElementById('product-modal-title').textContent = p ? 'Edit Product' : 'Add Product';
+        if (p) ['name', 'category', 'price', 'stock', 'image'].forEach((k, i) => document.getElementById(`product-${k}`).value = p[k]);
+        else f.reset();
+        m.classList.remove('hidden');
+    }
+
+    saveProduct() {
+        const p = ['name', 'category', 'price', 'stock', 'image'].reduce((o, k) => ({ ...o, [k]: document.getElementById(`product-${k}`).value }), {});
+        p.id = this.editingProduct ? this.editingProduct.id : Math.max(...this.products.map(p => p.id)) + 1;
+        p.price = parseFloat(p.price);
+        p.stock = parseInt(p.stock);
+        p.image = p.image || 'https://images.pexels.com/photos/996329/pexels-photo-996329.jpeg?auto=compress&cs=tinysrgb&w=300';
+        this.products = this.editingProduct ? this.products.map(x => x.id === p.id ? p : x) : [...this.products, p];
+        this.showToast(`Product ${this.editingProduct ? 'updated' : 'added'}!`, 'success');
+        this.loadProducts();
+        this.closeModals();
+    }
+
+    editProduct(id) {
+        this.showProductModal(this.products.find(p => p.id === id));
+    }
+
+    deleteProduct(id) {
+        if (confirm('Delete this product?')) {
+            this.products = this.products.filter(p => p.id !== id);
+            this.loadProducts();
+            this.showToast('Product deleted!', 'success');
+        }
+    }
