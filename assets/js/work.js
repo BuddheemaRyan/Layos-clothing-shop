@@ -13,7 +13,10 @@ class FashionRackPOS {
             { id: 9, name: "Leather Belt", category: "accessories", price: 19.99, stock: 20, image: "https://images.pexels.com/photos/31959217/pexels-photo-31959217.jpeg?auto=compress&cs=tinysrgb&w=300" },
             { id: 10, name: "Silk Tie", category: "accessories", price: 14.99, stock: 15, image: "https://images.pexels.com/photos/130855/pexels-photo-130855.jpeg?auto=compress&cs=tinysrgb&w=300" },
             { id: 11, name: "Designer Watch", category: "accessories", price: 89.99, stock: 3, image: "https://images.pexels.com/photos/380782/pexels-photo-380782.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 12, name: "Sunglasses", category: "accessories", price: 24.99, stock: 12, image: "https://images.pexels.com/photos/704241/pexels-photo-704241.jpeg?auto=compress&cs=tinysrgb&w=300" }
+            { id: 12, name: "Sunglasses", category: "accessories", price: 24.99, stock: 12, image: "https://images.pexels.com/photos/704241/pexels-photo-704241.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 12, name: "NIKE AIR Shoes", category: "accessories", price: 154.99, stock: 12, image: "https://images.pexels.com/photos/2385477/pexels-photo-2385477.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 12, name: "NIKE AIR Shoes black", category: "accessories", price: 184.99, stock: 8, image: "https://images.pexels.com/photos/3261068/pexels-photo-3261068.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 12, name: "NIKE AIR Shoes white", category: "accessories", price: 166.99, stock: 10, image: "https://images.pexels.com/photos/15435913/pexels-photo-15435913.jpeg?auto=compress&cs=tinysrgb&w=300" }
         ];
         this.customers = [
             { id: 1, name: "Dulani Piusha", email: "dulani@gmail.com", phone: "+1234567890", address: "123 station rd, Galle", totalOrders: 5 },
@@ -137,3 +140,41 @@ class FashionRackPOS {
             this.showToast('Product deleted!', 'success');
         }
     }
+     addToCart(p) {
+        const i = this.cart.find(x => x.id === p.id);
+        if (i && i.quantity >= p.stock) return this.showToast('Out of stock', 'error');
+        if (i) i.quantity++; else this.cart.push({ ...p, quantity: 1 });
+        this.updateCartDisplay();
+        this.showToast(`${p.name} ${i ? 'updated' : 'added'} to cart`, 'success');
+    }
+
+    removeFromCart(id) {
+        this.cart = this.cart.filter(i => i.id !== id);
+        this.updateCartDisplay();
+        this.showToast('Item removed', 'info');
+    }
+
+    updateQuantity(id, c) {
+        const i = this.cart.find(x => x.id === id), p = this.products.find(x => x.id === id);
+        if (i && p) {
+            const q = i.quantity + c;
+            if (q <= 0) this.removeFromCart(id);
+            else if (q <= p.stock) i.quantity = q;
+            else return this.showToast('Out of stock', 'error');
+            this.updateCartDisplay();
+        }
+    }
+
+    updateCartDisplay() {
+        const c = document.getElementById('cart-items');
+        c.innerHTML = this.cart.length ? this.cart.map(i => `<div class="cart-item bg-gray-50 p-3 rounded-lg"><div class="flex justify-between items-start mb-2"><div class="flex-1"><h4 class="font-medium text-sm">${i.name}</h4><p class="text-gray-600 text-xs">$${i.price.toFixed(2)} each</p></div><button class="remove-item text-red-500 hover:text-red-700 text-sm" data-product-id="${i.id}"><i class="fas fa-times"></i></button></div><div class="flex justify-between items-center"><div class="quantity-controls"><button class="quantity-btn bg-gray-300 hover:bg-gray-400 text-gray-700" data-product-id="${i.id}" data-change="-1">-</button><span class="px-2 font-medium">${i.quantity}</span><button class="quantity-btn bg-gray-300 hover:bg-gray-400 text-gray-700" data-product-id="${i.id}" data-change="1">+</button></div><span class="font-semibold text-purple-600">$${(i.price * i.quantity).toFixed(2)}</span></div></div>`).join('') : '<div class="text-center text-gray-500 py-8"><i class="fas fa-shopping-cart text-4xl mb-2"></i><p>Cart is empty</p></div>';
+        c.querySelectorAll('.remove-item').forEach(b => b.addEventListener('click', e => this.removeFromCart(parseInt(e.target.closest('.remove-item').dataset.productId))));
+        c.querySelectorAll('.quantity-btn').forEach(b => b.addEventListener('click', e => this.updateQuantity(parseInt(e.target.dataset.productId), parseInt(e.target.dataset.change))));
+        this.updateCartSummary();
+    }
+
+    updateCartSummary() {
+        const s = this.cart.reduce((a, i) => a + i.price * i.quantity, 0), d = s * this.discount / 100, t = (s - d) * 0.08;
+        ['subtotal', 'discount-amount', 'tax-amount', 'total-amount'].forEach((id, i) => document.getElementById(id).textContent = `$ ${[s, -d, t, s - d + t][i].toFixed(2)}`);
+    }
+
