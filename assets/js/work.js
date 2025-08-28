@@ -252,4 +252,43 @@ class FashionRackPOS {
         this.loadCustomers();
         this.closeModals();
     }
+    editCustomer(c) {
+        this.showCustomerModal(c);
+    }
+
+    deleteCustomer(id) {
+        if (confirm('Delete this customer?')) {
+            this.customers = this.customers.filter(c => c.id !== id);
+            this.loadCustomers();
+            this.showToast('Customer deleted!', 'success');
+        }
+    }
+
+    loadOrders() {
+        const t = document.getElementById('orders-table-body');
+        t.innerHTML = this.orders.map(o => `<tr><td class="px-4 py-4 font-medium text-gray-900">#${o.id}</td><td class="px-4 py-4 text-gray-500">${o.customerName}</td><td class="px-4 py-4 text-gray-500">${o.date.toLocaleDateString()}</td><td class="px-4 py-4 text-gray-900">${o.items.length} items</td><td class="px-4 py-4 font-semibold text-green-600">$${o.total.toFixed(2)}</td><td class="px-4 py-4 space-x-2"><button class="view-order-btn text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button><button class="delete-order-btn text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+        t.querySelectorAll('.view-order-btn').forEach((b, i) => b.addEventListener('click', () => this.viewOrderDetails(this.orders[i])));
+        t.querySelectorAll('.delete-order-btn').forEach((b, i) => b.addEventListener('click', () => this.deleteOrder(this.orders[i].id)));
+    }
+
+    viewOrderDetails({ id, customerName, date, items, subtotal, total }) {
+        document.getElementById('order-details-content').innerHTML = `<div class="space-y-4"><div class="grid grid-cols-2 gap-4"><div><h4 class="font-semibold text-gray-700">Order Information</h4><p><strong>Order ID:</strong> #${id}</p><p><strong>Date:</strong> ${date.toLocaleString()}</p><p><strong>Customer:</strong> ${customerName}</p></div><div><h4 class="font-semibold text-gray-700">Order Summary</h4><p><strong>Items:</strong> ${items.length}</p><p><strong>Subtotal:</strong> $${subtotal.toFixed(2)}</p><p><strong>Total:</strong> $${total.toFixed(2)}</p></div></div><div><h4 class="font-semibold text-gray-700 mb-2">Items Ordered</h4><div class="bg-gray-50 rounded-lg p-4">${items.map(i => `<div class="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0"><div><span class="font-medium">${i.name}</span><span class="text-gray-500 text-sm"> x${i.quantity}</span></div><span class="font-semibold">$${(i.price * i.quantity).toFixed(2)}</span></div>`).join('')}</div></div></div>`;
+        document.getElementById('order-details-modal').classList.remove('hidden');
+    }
+
+    filterOrders(f) {
+        const n = new Date(), o = { today: o => o.date.toDateString() === n.toDateString(), week: o => o.date >= new Date(n.getTime() - 7 * 24 * 60 * 60 * 1000), month: o => o.date >= new Date(n.getFullYear(), n.getMonth() - 1, n.getDate()) }[f] ? this.orders.filter(o[f]) : this.orders;
+        const t = document.getElementById('orders-table-body');
+        t.innerHTML = o.map(o => `<tr><td class="px-4 py-4 font-medium text-gray-900">#${o.id}</td><td class="px-4 py-4 text-gray-500">${o.customerName}</td><td class="px-4 py-4 text-gray-500">${o.date.toLocaleDateString()}</td><td class="px-4 py-4 text-gray-900">${o.items.length} items</td><td class="px-4 py-4 font-semibold text-green-600">$${o.total.toFixed(2)}</td><td class="px-4 py-4 space-x-2"><button class="view-order-btn text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button><button class="delete-order-btn text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+        t.querySelectorAll('.view-order-btn').forEach((b, i) => b.addEventListener('click', () => this.viewOrderDetails(o[i])));
+        t.querySelectorAll('.delete-order-btn').forEach((b, i) => b.addEventListener('click', () => this.deleteOrder(o[i].id)));
+    }
+
+    deleteOrder(id) {
+        if (confirm('Delete this order?')) {
+            this.orders = this.orders.filter(o => o.id !== id);
+            this.loadOrders();
+            this.showToast('Order deleted!', 'success');
+        }
+    }
 
