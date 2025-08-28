@@ -177,4 +177,44 @@ class FashionRackPOS {
         const s = this.cart.reduce((a, i) => a + i.price * i.quantity, 0), d = s * this.discount / 100, t = (s - d) * 0.08;
         ['subtotal', 'discount-amount', 'tax-amount', 'total-amount'].forEach((id, i) => document.getElementById(id).textContent = `$ ${[s, -d, t, s - d + t][i].toFixed(2)}`);
     }
+     selectCustomer(id) {
+        this.currentCustomer = id ? this.customers.find(c => c.id === parseInt(id)) : null;
+    }
+
+    applyDiscount() {
+        const d = parseFloat(document.getElementById('discount-input').value) || 0;
+        if (d < 0 || d > 100) return this.showToast('Discount must be 0-100%', 'error');
+        this.discount = d;
+        this.updateCartSummary();
+        this.showToast(`${d}% discount applied`, 'success');
+    }
+    clearCart() {
+        if (this.cart.length && confirm('Clear cart?')) {
+            this.cart = [];
+            this.discount = 0;
+            document.getElementById('discount-input').value = '';
+            this.updateCartDisplay();
+            this.showToast('Cart cleared', 'info');
+        }
+    }
+    checkout() {
+        if (!this.cart.length) return this.showToast('Cart is empty', 'error');
+        const s = this.cart.reduce((a, i) => a + i.price * i.quantity, 0), d = s * this.discount / 100, t = (s - d) * 0.08;
+        const o = {
+            id: Math.max(...this.orders.map(o => o.id), 1000) + 1,
+            customerId: this.currentCustomer?.id || null,
+            customerName: this.currentCustomer?.name || 'Walk-in Customer',
+            date: new Date(),
+            items: this.cart.map(i => ({ productId: i.id, name: i.name, price: i.price, quantity: i.quantity })),
+            subtotal: s, discount: d, tax: t, total: s - d + t
+        };
+        this.orders.unshift(o);
+        this.cart.forEach(i => { const p = this.products.find(p => p.id === i.id); if (p) p.stock -= i.quantity; });
+        if (this.currentCustomer) this.currentCustomer.totalOrders++;
+        this.showReceipt(o);
+        this.clearCart();
+        this.loadProducts();
+        this.loadOrders();
+        this.showToast('Order completed!', 'success');
+    }
 
