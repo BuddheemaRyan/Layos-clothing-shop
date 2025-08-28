@@ -291,4 +291,19 @@ class FashionRackPOS {
             this.showToast('Order deleted!', 'success');
         }
     }
+      closeModals() {
+        document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
+        this.editingProduct = this.editingCustomer = null;
+    }
+
+    showToast(m, t = 'info') {
+        const d = document.createElement('div');
+        d.className = `toast ${t}`;
+        d.innerHTML = `<div class="flex items-center"><i class="fas fa-${t === 'success' ? 'check-circle' : t === 'error' ? 'exclamation-circle' : t === 'warning' ? 'exclamation-triangle' : 'info-circle'} mr-2"></i><span>${m}</span></div>`;
+        document.getElementById('toast-container').appendChild(d);
+        setTimeout(() => d.remove(), 3000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => new FashionRackPOS());
 
