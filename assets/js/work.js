@@ -217,4 +217,39 @@ class FashionRackPOS {
         this.loadOrders();
         this.showToast('Order completed!', 'success');
     }
+     showReceipt({ id, customerName, date, items, subtotal, discount, tax, total }) {
+        document.getElementById('receipt-content').innerHTML = `<div class="receipt"><div class="receipt-header"><h2 class="text-xl font-bold">FashionRack</h2><p class="text-sm text-gray-600">Fashion Retail Store<br>123 Fashion Street, Style City<br>Phone: (555) 123-4567</p></div><div class="mb-4"><p><strong>Order #:</strong> ${id}</p><p><strong>Date:</strong> ${date.toLocaleString()}</p><p><strong>Customer:</strong> ${customerName}</p></div><div class="mb-4"><h3 class="font-semibold mb-2">Items:</h3>${items.map(i => `<div class="receipt-item"><span>${i.name} x${i.quantity}</span><span>$${(i.price * i.quantity).toFixed(2)}</span></div>`).join('')}</div><div class="receipt-total"><div class="receipt-item"><span>Subtotal:</span><span>$${subtotal.toFixed(2)}</span></div>${discount > 0 ? `<div class="receipt-item"><span>Discount:</span><span>-$${discount.toFixed(2)}</span></div>` : ''}<div class="receipt-item"><span>Tax (8%):</span><span>$${tax.toFixed(2)}</span></div><div class="receipt-item text-lg"><span>Total:</span><span>$${total.toFixed(2)}</span></div></div><div class="text-center mt-4 text-sm text-gray-600"><p>Thank you for shopping with us!<br>Visit us again soon!</p></div></div>`;
+        document.getElementById('receipt-modal').classList.remove('hidden');
+    }
+
+    loadCustomers() {
+        const t = document.getElementById('customers-table-body');
+        t.innerHTML = this.customers.map(c => `<tr><td class="px-4 py-4 font-medium text-gray-900">${c.name}</td><td class="px-4 py-4 text-gray-500">${c.email}</td><td class="px-4 py-4 text-gray-500">${c.phone}</td><td class="px-4 py-4 text-gray-900">${c.totalOrders}</td><td class="px-4 py-4 space-x-2"><button class="edit-customer-btn text-blue-600 hover:text-blue-800"><i class="fas fa-edit"></i></button><button class="delete-customer-btn text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+        t.querySelectorAll('.edit-customer-btn').forEach((b, i) => b.addEventListener('click', () => this.editCustomer(this.customers[i])));
+        t.querySelectorAll('.delete-customer-btn').forEach((b, i) => b.addEventListener('click', () => this.deleteCustomer(this.customers[i].id)));
+        this.updateCustomerSelect();
+    }
+
+    updateCustomerSelect() {
+        document.getElementById('customer-select').innerHTML = '<option value="">Walk-in Customer</option>' + this.customers.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    }
+
+    showCustomerModal(c = null) {
+        this.editingCustomer = c;
+        const m = document.getElementById('customer-modal'), f = document.getElementById('customer-form');
+        document.getElementById('customer-modal-title').textContent = c ? 'Edit Customer' : 'Add Customer';
+        if (c) ['name', 'email', 'phone', 'address'].forEach((k, i) => document.getElementById(`customer-${k}`).value = c[k]);
+        else f.reset();
+        m.classList.remove('hidden');
+    }
+
+    saveCustomer() {
+        const c = ['name', 'email', 'phone', 'address'].reduce((o, k) => ({ ...o, [k]: document.getElementById(`customer-${k}`).value }), {});
+        c.id = this.editingCustomer ? this.editingCustomer.id : Math.max(...this.customers.map(c => c.id)) + 1;
+        c.totalOrders = this.editingCustomer?.totalOrders || 0;
+        this.customers = this.editingCustomer ? this.customers.map(x => x.id === c.id ? c : x) : [...this.customers, c];
+        this.showToast(`Customer ${this.editingCustomer ? 'updated' : 'added'}!`, 'success');
+        this.loadCustomers();
+        this.closeModals();
+    }
 
