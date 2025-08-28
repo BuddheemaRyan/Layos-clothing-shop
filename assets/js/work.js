@@ -72,3 +72,32 @@ class FashionRackPOS {
     toggleMobileMenu() {
         document.getElementById('mobile-menu').classList.toggle('hidden');
     }
+     loadProducts() {
+        const g = document.getElementById('products-grid'), t = document.getElementById('products-table-body');
+        g.innerHTML = t.innerHTML = '';
+        this.products.forEach(p => { g.appendChild(this.createProductCard(p)); t.appendChild(this.createProductTableRow(p)); });
+    }
+    createProductCard({ id, name, category, price, stock, image }) {
+        const c = document.createElement('div');
+        c.className = `product-card bg-white rounded-lg shadow-md overflow-hidden ${stock ? '' : 'out-of-stock'}`;
+        c.innerHTML = `<div class="relative"><img src="${image}" alt="${name}" class="w-full h-48 object-cover"><div class="stock-badge ${stock ? stock <= 5 ? 'low-stock' : 'in-stock' : 'out-of-stock'}">${stock ? `${stock} left` : 'Out of Stock'}</div></div><div class="p-4"><h3 class="font-semibold text-gray-800 mb-2">${name}</h3><p class="text-gray-600 text-sm mb-2 capitalize">${category}</p><div class="flex justify-between items-center"><span class="text-lg font-bold text-purple-600">$${price.toFixed(2)}</span><button class="add-to-cart-btn bg-purple-600 text-white px-3 py-1 rounded-lg hover:bg-purple-700 transition-colors ${stock ? '' : 'opacity-50 cursor-not-allowed'}" ${stock ? '' : 'disabled'} data-product-id="${id}"><i class="fas fa-plus mr-1"></i>Add</button></div></div>`;
+        if (stock) c.querySelector('.add-to-cart-btn').addEventListener('click', e => { e.stopPropagation(); this.addToCart(this.products.find(p => p.id === id)); });
+        return c;
+    }
+    createProductTableRow({ id, name, category, price, stock, image }) {
+        const r = document.createElement('tr');
+        r.innerHTML = `<td class="px-4 py-4"><img src="${image}" alt="${name}" class="w-12 h-12 object-cover rounded"></td><td class="px-4 py-4 font-medium text-gray-900">${name}</td><td class="px-4 py-4 text-gray-500 capitalize">${category}</td><td class="px-4 py-4 text-gray-900">$${price.toFixed(2)}</td><td class="px-4 py-4"><span class="px-2 py-1 text-xs font-semibold rounded-full ${stock ? stock <= 5 ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${stock}</span></td><td class="px-4 py-4 space-x-2"><button class="edit-product-btn text-blue-600 hover:text-blue-800"><i class="fas fa-edit"></i></button><button class="delete-product-btn text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button></td>`;
+        r.querySelector('.edit-product-btn').addEventListener('click', () => this.editProduct(id));
+        r.querySelector('.delete-product-btn').addEventListener('click', () => this.deleteProduct(id));
+        return r;
+    }
+    filterProducts(c) {
+        document.querySelectorAll('.product-card').forEach(card => card.style.display = c === 'all' || this.products.find(p => p.id === parseInt(card.querySelector('.add-to-cart-btn')?.dataset?.productId))?.category === c ? 'block' : 'none');
+    }
+    updateCategoryButtons(b) {
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active', 'bg-purple-600', 'text-white');
+            btn.classList.add('bg-gray-200', 'text-gray-700');
+            if (btn === b) btn.classList.add('active', 'bg-purple-600', 'text-white');
+        });
+    }
