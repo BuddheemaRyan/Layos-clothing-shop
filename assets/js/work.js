@@ -22,7 +22,7 @@ class FashionRackPOS {
             { id: 18, name: "NIKE AIR Shoes white", category: "accessories", price: 166.99, stock: 19, image: "https://images.pexels.com/photos/15435913/pexels-photo-15435913.jpeg?auto=compress&cs=tinysrgb&w=300" },
             { id: 19, name: "NIKE Shoes ", category: "accessories", price: 99.99, stock: 15, image: "https://images.pexels.com/photos/1032110/pexels-photo-1032110.jpeg?auto=compress&cs=tinysrgb&w=300" },
             { id: 20, name: "Brown Leather Formal Shoes", category: "accessories", price: 106.99, stock: 12, image: "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 11, name: "NIKE Shoes Red", category: "accessories", price: 156.99, stock: 11, image: "https://images.pexels.com/photos/1027130/pexels-photo-1027130.jpeg?auto=compress&cs=tinysrgb&w=300" }
+            { id: 21, name: "NIKE Shoes Red", category: "accessories", price: 156.99, stock: 11, image: "https://images.pexels.com/photos/1027130/pexels-photo-1027130.jpeg?auto=compress&cs=tinysrgb&w=300" }
         ];
         this.customers = [
             { id: 1, name: "Dulani Piusha", email: "dulani@gmail.com", phone: "+1234567890", address: "123 station rd, Galle", totalOrders: 5 },
