@@ -2,21 +2,27 @@ console.log("hello Ryan!");
 class FashionRackPOS {
     constructor() {
         this.products = [
-            { id: 1, name: "Classic White Shirt", category: "shirts", price: 29.99, stock: 15, image: "https://images.pexels.com/photos/996329/pexels-photo-996329.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 2, name: "Denim Casual Shirt", category: "shirts", price: 39.99, stock: 8, image: "https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 1, name: "Classic White Shirt", category: "shirts", price: 29.99, stock: 15, image: "https://images.pexels.com/photos/2112648/pexels-photo-2112648.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 2, name: "Old Money Style Shirt", category: "shirts", price: 39.99, stock: 8, image: "https://images.pexels.com/photos/2635315/pexels-photo-2635315.jpeg?auto=compress&cs=tinysrgb&w=300" },
             { id: 3, name: "Striped Polo Shirt", category: "shirts", price: 24.99, stock: 12, image: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 4, name: "Black Formal Shirt", category: "shirts", price: 34.99, stock: 6, image: "https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 5, name: "Blue Jeans", category: "pants", price: 49.99, stock: 10, image: "https://images.pexels.com/photos/52518/jeans-pants-blue-shop-52518.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 6, name: "Black Chinos", category: "pants", price: 44.99, stock: 7, image: "https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 7, name: "Formal Trousers", category: "pants", price: 59.99, stock: 5, image: "https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 8, name: "Cargo Pants", category: "pants", price: 39.99, stock: 9, image: "https://images.pexels.com/photos/10861640/pexels-photo-10861640.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 9, name: "Leather Belt", category: "accessories", price: 19.99, stock: 20, image: "https://images.pexels.com/photos/31959217/pexels-photo-31959217.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 10, name: "Silk Tie", category: "accessories", price: 14.99, stock: 15, image: "https://images.pexels.com/photos/130855/pexels-photo-130855.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 11, name: "Designer Watch", category: "accessories", price: 89.99, stock: 3, image: "https://images.pexels.com/photos/380782/pexels-photo-380782.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 12, name: "Sunglasses", category: "accessories", price: 24.99, stock: 12, image: "https://images.pexels.com/photos/704241/pexels-photo-704241.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 13, name: "NIKE AIR Shoes", category: "accessories", price: 154.99, stock: 12, image: "https://images.pexels.com/photos/2385477/pexels-photo-2385477.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 14, name: "NIKE AIR Shoes black", category: "accessories", price: 184.99, stock: 8, image: "https://images.pexels.com/photos/3261068/pexels-photo-3261068.jpeg?auto=compress&cs=tinysrgb&w=300" },
-            { id: 15, name: "NIKE AIR Shoes white", category: "accessories", price: 166.99, stock: 10, image: "https://images.pexels.com/photos/15435913/pexels-photo-15435913.jpeg?auto=compress&cs=tinysrgb&w=300" }
+            { id: 4, name: "Beige Formal Shirt", category: "shirts", price: 34.99, stock: 6, image: "https://images.pexels.com/photos/7671168/pexels-photo-7671168.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 5, name: "Black Vans Hoodie", category: "shirts", price: 50.99, stock: 10, image: "https://images.pexels.com/photos/702350/pexels-photo-702350.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 6, name: "white Hoodie ", category: "shirts", price: 49.99, stock: 6, image: "https://images.pexels.com/photos/2046790/pexels-photo-2046790.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 7, name: "Gym Pants", category: "pants", price: 34.99, stock: 6, image: "https://images.pexels.com/photos/6455977/pexels-photo-6455977.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 8, name: "Blue Jeans", category: "pants", price: 49.99, stock: 10, image: "https://images.pexels.com/photos/52518/jeans-pants-blue-shop-52518.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 9, name: "Black Chinos", category: "pants", price: 44.99, stock: 7, image: "https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 10, name: "Formal Trousers", category: "pants", price: 59.99, stock: 5, image: "https://images.pexels.com/photos/7821329/pexels-photo-7821329.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 11, name: "Cargo Pants", category: "pants", price: 39.99, stock: 9, image: "https://images.pexels.com/photos/10861640/pexels-photo-10861640.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 12, name: "Leather Belt", category: "accessories", price: 19.99, stock: 20, image: "https://images.pexels.com/photos/31959217/pexels-photo-31959217.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 13, name: "Silk Tie", category: "accessories", price: 14.99, stock: 15, image: "https://images.pexels.com/photos/130855/pexels-photo-130855.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 14, name: "Designer Watch", category: "accessories", price: 89.99, stock: 3, image: "https://images.pexels.com/photos/380782/pexels-photo-380782.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 15, name: "Sunglasses", category: "accessories", price: 24.99, stock: 12, image: "https://images.pexels.com/photos/704241/pexels-photo-704241.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 16, name: "NIKE AIR Shoes", category: "accessories", price: 154.99, stock: 12, image: "https://images.pexels.com/photos/2385477/pexels-photo-2385477.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 17, name: "NIKE AIR Shoes black", category: "accessories", price: 184.99, stock: 8, image: "https://images.pexels.com/photos/3261068/pexels-photo-3261068.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 18, name: "NIKE AIR Shoes white", category: "accessories", price: 166.99, stock: 19, image: "https://images.pexels.com/photos/15435913/pexels-photo-15435913.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 19, name: "NIKE Shoes ", category: "accessories", price: 99.99, stock: 15, image: "https://images.pexels.com/photos/1032110/pexels-photo-1032110.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 20, name: "Brown Leather Formal Shoes", category: "accessories", price: 106.99, stock: 12, image: "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?auto=compress&cs=tinysrgb&w=300" },
+            { id: 11, name: "NIKE Shoes Red", category: "accessories", price: 156.99, stock: 11, image: "https://images.pexels.com/photos/1027130/pexels-photo-1027130.jpeg?auto=compress&cs=tinysrgb&w=300" }
         ];
         this.customers = [
             { id: 1, name: "Dulani Piusha", email: "dulani@gmail.com", phone: "+1234567890", address: "123 station rd, Galle", totalOrders: 5 },
